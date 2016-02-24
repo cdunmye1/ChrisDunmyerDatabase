@@ -49,6 +49,15 @@ public class MyDBHandler extends SQLiteOpenHelper {
         db.close();
     }
 
+    public void updateProduct(Product product) {
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_PRODUCTNAME, product.getProductName());
+        values.put(COLUMN_QUANTITY, product.getQuantity());
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.update(TABLE_PRODUCTS, values, COLUMN_ID + "=" + product.getID(), null);
+        db.close();
+    }
+
     public Product findProduct(String productname) {
         String query = "Select * FROM " + TABLE_PRODUCTS + " WHERE " + COLUMN_PRODUCTNAME + " =  \"" + productname + "\"";
 
@@ -93,5 +102,4 @@ public class MyDBHandler extends SQLiteOpenHelper {
         db.close();
         return result;
     }
-
 } 

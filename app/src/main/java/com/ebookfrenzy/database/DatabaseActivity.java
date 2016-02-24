@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -13,6 +14,7 @@ public class DatabaseActivity extends AppCompatActivity {
     TextView idView;
     EditText productBox;
     EditText quantityBox;
+    Button updateButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +23,7 @@ public class DatabaseActivity extends AppCompatActivity {
 
         idView = (TextView) findViewById(R.id.productID);
         productBox = (EditText) findViewById(R.id.productName);
+        updateButton = (Button) findViewById(R.id.updateButton);
         quantityBox =
                 (EditText) findViewById(R.id.productQuantity);
     }
@@ -40,18 +43,30 @@ public class DatabaseActivity extends AppCompatActivity {
     }
 
     public void lookupProduct (View view) {
-        MyDBHandler dbHandler = new MyDBHandler(this, null, null, 1);
-
-        Product product =
-                dbHandler.findProduct(productBox.getText().toString());
+        Product product = getProduct(productBox.getText().toString());
 
         if (product != null) {
             idView.setText(String.valueOf(product.getID()));
-
             quantityBox.setText(String.valueOf(product.getQuantity()));
         } else {
             idView.setText("No Match Found");
         }
+    }
+
+    public void updateProduct (View view) {
+        MyDBHandler dbHandler = new MyDBHandler(this, null, null, 1);
+        Product product = getProduct(productBox.getText().toString());
+        if (product != null) {
+            product.setQuantity(Integer.parseInt(quantityBox.getText().toString()));
+            dbHandler.updateProduct(product);
+            idView.setText(String.valueOf(product.getID()) + " Updated!");
+        } else {
+            idView.setText("Product not found!");
+        }
+    }
+    private Product getProduct(String productName) {
+        MyDBHandler dbHandler = new MyDBHandler(this, null, null, 1);
+         return dbHandler.findProduct(productName);
     }
 
     public void removeProduct (View view) {
