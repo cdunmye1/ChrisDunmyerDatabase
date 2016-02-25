@@ -30,19 +30,25 @@ public class DatabaseActivity extends AppCompatActivity {
 
     public void newProduct (View view) {
         MyDBHandler dbHandler = new MyDBHandler(this, null, null, 1);
+        if (quantityBox.getText().toString().trim().equals("")) {
+            idView.setText("Quantity Required!");
+            return;
+        }
 
         int quantity =
                 Integer.parseInt(quantityBox.getText().toString());
 
         Product product =
                 new Product(productBox.getText().toString(), quantity);
+
         if (getProduct(productBox.getText().toString()) != null) {
             idView.setText("Already Exists!");
         } else {
             dbHandler.addProduct(product);
             productBox.setText("");
-            quantityBox.setText("");}
+            quantityBox.setText("");
             idView.setText("");
+        }
     }
 
     public void lookupProduct (View view) {
@@ -59,6 +65,10 @@ public class DatabaseActivity extends AppCompatActivity {
     public void updateProduct (View view) {
         MyDBHandler dbHandler = new MyDBHandler(this, null, null, 1);
         Product product = getProduct(productBox.getText().toString());
+        if (quantityBox.getText().toString().trim().equals("")) {
+            idView.setText("Quantity Required!");
+            return;
+        }
         if (product != null) {
             product.setQuantity(Integer.parseInt(quantityBox.getText().toString()));
             dbHandler.updateProduct(product);
