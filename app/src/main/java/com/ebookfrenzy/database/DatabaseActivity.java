@@ -89,6 +89,15 @@ public class DatabaseActivity extends AppCompatActivity {
             idView.setText("No Match Found");
     }
 
+    public void removeAllProducts (View view) {
+        MyDBHandler dbHandler = new MyDBHandler(this, null,
+                null, 1);
+        dbHandler.deleteAllProducts();
+        idView.setText("Records Deleted");
+        productBox.setText("");
+        quantityBox.setText("");
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
