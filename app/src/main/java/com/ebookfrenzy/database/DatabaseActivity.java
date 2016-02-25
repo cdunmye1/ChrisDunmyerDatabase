@@ -30,6 +30,12 @@ public class DatabaseActivity extends AppCompatActivity {
 
     public void newProduct (View view) {
         MyDBHandler dbHandler = new MyDBHandler(this, null, null, 1);
+
+        if (productBox.getText().toString().trim().equals("")) {
+            idView.setText("Product Required!");
+            return;
+        }
+
         if (quantityBox.getText().toString().trim().equals("")) {
             idView.setText("Quantity Required!");
             return;
