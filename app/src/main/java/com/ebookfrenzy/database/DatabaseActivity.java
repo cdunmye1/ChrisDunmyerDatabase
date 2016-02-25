@@ -36,10 +36,13 @@ public class DatabaseActivity extends AppCompatActivity {
 
         Product product =
                 new Product(productBox.getText().toString(), quantity);
-
-        dbHandler.addProduct(product);
-        productBox.setText("");
-        quantityBox.setText("");
+        if (getProduct(productBox.getText().toString()) != null) {
+            idView.setText("Already Exists!");
+        } else {
+            dbHandler.addProduct(product);
+            productBox.setText("");
+            quantityBox.setText("");}
+            idView.setText("");
     }
 
     public void lookupProduct (View view) {
